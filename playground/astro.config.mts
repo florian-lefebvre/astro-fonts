@@ -9,7 +9,9 @@ const { default: fonts } = await import("@astrolicious/fonts");
 export default defineConfig({
 	integrations: [
 		tailwind(),
-		fonts(),
+		fonts({
+			providers: [{}]
+		}),
 		hmrIntegration({
 			directory: createResolver(import.meta.url).resolve("../package/dist"),
 		}),
