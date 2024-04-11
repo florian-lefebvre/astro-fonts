@@ -54,7 +54,7 @@ export const normalizeOptions = (options: IntegrationOptions) => {
 	};
 
 	if (
-		!options.defaults?.fallbacks ??
+		!options.defaults?.fallbacks ||
 		!Array.isArray(options.defaults.fallbacks)
 	) {
 		options.defaults ??= {};

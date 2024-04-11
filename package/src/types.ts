@@ -35,3 +35,4 @@ export type NormalizedFontFaceData = Omit<
 	src: Array<LocalFontSource | RemoteFontSource>;
 	unicodeRange?: string[] | undefined;
 };
+export type Awaitable<T> = T | Promise<T>;

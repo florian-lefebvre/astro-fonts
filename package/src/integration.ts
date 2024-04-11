@@ -9,8 +9,6 @@ export const integration = defineIntegration({
 	setup({ options, name }) {
 		const { normalizedDefaults } = normalizeOptions(options);
 
-		console.dir({ options, normalizedDefaults }, { depth: null });
-
 		const { providers } = options;
 
 		return withPlugins({
@@ -24,6 +22,9 @@ export const integration = defineIntegration({
 				},
 				"astro:server:setup": ({ registerFontsMiddleware }) => {
 					registerFontsMiddleware();
+				},
+				"astro:build:done": async ({ buildFonts }) => {
+					await buildFonts();
 				},
 			},
 		});
