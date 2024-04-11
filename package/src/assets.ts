@@ -139,6 +139,7 @@ export const assetsPlugin = definePlugin({
 									.then((r) => Buffer.from(r));
 								await storage.setItemRaw(key, res);
 							}
+							console.log(join(cacheDir, filename));
 							fs.writeFileSync(join(cacheDir, filename), res);
 						}
 						if (banner) {

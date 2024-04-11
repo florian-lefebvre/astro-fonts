@@ -1,5 +1,6 @@
 import { z } from "astro/zod";
 import { genericCssFamilySchema } from "./css/parse.js";
+import type { AstroIntegrationLogger } from "astro";
 
 export const remoteFontSourceSchema = z.object({
 	url: z.string().url(),
@@ -71,12 +72,16 @@ export const fontProviderSchema = z.object({
 	name: z.string(),
 	setup: z
 		.function()
-		.args(z.record(z.string(), z.unknown()))
+		.args(z.record(z.string(), z.unknown()), z.custom<AstroIntegrationLogger>())
 		.returns(awaitableSchema(z.void()))
 		.optional(),
 	resolveFontFaces: z
 		.function()
-		.args(z.string(), resolveFontFacesOptionsSchema)
+		.args(
+			z.string(),
+			resolveFontFacesOptionsSchema,
+			z.custom<AstroIntegrationLogger>(),
+		)
 		.returns(
 			awaitableSchema(
 				z.union([

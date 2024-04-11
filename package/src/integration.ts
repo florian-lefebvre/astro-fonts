@@ -34,8 +34,8 @@ export const integration = defineIntegration({
 					setupPublicAssetsStrategy,
 					...params
 				}) => {
-					const { logger, command } = params;
-					await Promise.all(providers.map((p) => p.setup));
+					const { logger, command, injectScript } = params;
+					await Promise.all(providers.map((p) => p.setup?.({}, logger)));
 
 					const { normalizeFontData } = setupPublicAssetsStrategy(
 						options.assets,
@@ -91,6 +91,7 @@ export const integration = defineIntegration({
 								const result = await foundProvider.resolveFontFaces?.(
 									fontFamily,
 									defaults,
+									logger,
 								);
 								// Rewrite font source URLs to be proxied/local URLs
 								const fonts = normalizeFontData(result?.fonts || []);
@@ -114,28 +115,37 @@ export const integration = defineIntegration({
 						return;
 					}
 
+					const virtualImportId = "virtual:@astrolicious/fonts/main.css";
+
+					const virtualImportContent = await (async () => {
+						let css = "";
+						for (const family of options.families || []) {
+							if (!family.global) continue;
+							const result = await resolveFontFaceWithOverride(
+								family.name,
+								family,
+							);
+							for (const font of result?.fonts || []) {
+								// We only inject basic `@font-face` as metrics for fallbacks don't make sense
+								// in this context unless we provide a name for the user to use elsewhere as a
+								// `font-family`.
+								css += `${generateFontFace(family.name, font)}\n`;
+							}
+						}
+						return css;
+					})();
+
 					addVirtualImports(params, {
 						name,
 						imports: {
-							"virtual:@astrolicious/fonts/css": await (async () => {
-								let css = "";
-								for (const family of options.families || []) {
-									if (!family.global) continue;
-									const result = await resolveFontFaceWithOverride(
-										family.name,
-										family,
-									);
-									for (const font of result?.fonts || []) {
-										// We only inject basic `@font-face` as metrics for fallbacks don't make sense
-										// in this context unless we provide a name for the user to use elsewhere as a
-										// `font-family`.
-										css += `${generateFontFace(family.name, font)}\n`;
-									}
-								}
-								return css;
-							})(),
+							[virtualImportId]: virtualImportContent,
 						},
 					});
+
+					injectScript(
+						"page-ssr",
+						`import ${JSON.stringify(virtualImportId)};`,
+					);
 
 					const fontMap = new Map<string, Set<string>>();
 					addVitePlugin(params, {
