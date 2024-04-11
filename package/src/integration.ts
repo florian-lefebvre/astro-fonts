@@ -112,6 +112,23 @@ export const integration = defineIntegration({
 								`Unknown provider \`${override.provider}\` for font family \`${fontFamily}\`. Falling back to default providers.`,
 							);
 						}
+
+						for (const provider of providers) {
+							const result = await provider.resolveFontFaces?.(
+								fontFamily,
+								defaults,
+								logger,
+							);
+							// Rewrite font source URLs to be proxied/local URLs
+							const fonts = normalizeFontData(result?.fonts || []);
+							if (!fonts.length || !result) {
+								return;
+							}
+							return {
+								fallbacks: result.fallbacks || defaults.fallbacks,
+								fonts,
+							};
+						}
 						return;
 					}
 

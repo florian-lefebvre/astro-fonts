@@ -12,13 +12,16 @@ export default defineConfig({
 		tailwind(),
 		fonts({
 			providers: [googleProvider],
-			families: [
-				{
-					name: "Poppins",
-					provider: "google",
-					global: true,
-				},
-			],
+			// families: [
+			// 	{
+			// 		name: "Poppins",
+			// 		provider: "google",
+			// 		global: true,
+			// 	},
+			// ],
+			experimental: {
+				processCSSVariables: true
+			}
 		}),
 		hmrIntegration({
 			directory: createResolver(import.meta.url).resolve("../package/dist"),
