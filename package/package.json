@@ -1,11 +1,11 @@
 {
-	"name": "package-name",
+	"name": "@astrolicious/fonts",
 	"version": "0.0.0",
-	"description": "TODO:",
+	"description": "Plug-and-play web font optimization and configuration for Astro websites.",
 	"author": {
-		"email": "TODO:",
-		"name": "TODO:",
-		"url": "TODO:"
+		"email": "contact@florian-lefebvre.dev",
+		"name": "Florian Lefebvre",
+		"url": "https://florian-lefebvre.dev/"
 	},
 	"license": "MIT",
 	"keywords": [
@@ -13,9 +13,11 @@
 		"astro-component",
 		"withastro",
 		"astro",
-		"TODO:"
+		"css",
+		"seo",
+		"perf"
 	],
-	"homepage": "TODO:",
+	"homepage": "https://github.com/astrolicious/fonts",
 	"publishConfig": {
 		"access": "public"
 	},

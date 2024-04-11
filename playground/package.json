@@ -14,7 +14,7 @@
 		"@astrojs/tailwind": "^5.1.0",
 		"astro": "^4.5.16",
 		"astro-integration-kit": "^0.10.0",
-		"package-name": "workspace:*",
+		"@astrolicious/fonts": "workspace:*",
 		"tailwindcss": "^3.4.3"
 	},
 	"devDependencies": {
