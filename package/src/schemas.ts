@@ -68,6 +68,7 @@ const awaitableSchema = <T extends z.ZodTypeAny>(schema: T) =>
 	z.union([schema, z.promise(schema)]);
 
 export const fontProviderSchema = z.object({
+	name: z.string(),
 	setup: z
 		.function()
 		.args(z.record(z.string(), z.unknown()))

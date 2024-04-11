@@ -10,7 +10,7 @@ export default defineConfig({
 	integrations: [
 		tailwind(),
 		fonts({
-			providers: [{}]
+			providers: [{ name: "test" }]
 		}),
 		hmrIntegration({
 			directory: createResolver(import.meta.url).resolve("../package/dist"),
