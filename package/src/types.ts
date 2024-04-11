@@ -28,3 +28,10 @@ export type FontFamilyProviderOverride = z.infer<
 >;
 export type FontProvider = z.infer<typeof fontProviderSchema>;
 export type IntegrationOptions = z.infer<typeof optionsSchema>;
+export type NormalizedFontFaceData = Omit<
+	FontFaceData,
+	"src" | "unicodeRange"
+> & {
+	src: Array<LocalFontSource | RemoteFontSource>;
+	unicodeRange?: string[] | undefined;
+};

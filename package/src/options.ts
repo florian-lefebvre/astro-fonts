@@ -38,31 +38,31 @@ const DEFAULT_VALUES = {
 
 export const normalizeOptions = (options: IntegrationOptions) => {
 	const normalizedDefaults = {
-		weights: (options.defaults?.weights || DEFAULT_VALUES.weights).map((v) =>
+		weights: (options.defaults?.weights ?? DEFAULT_VALUES.weights).map((v) =>
 			String(v),
 		),
-		styles: options.defaults?.styles || DEFAULT_VALUES.styles,
-		subsets: options.defaults?.subsets || DEFAULT_VALUES.subsets,
+		styles: options.defaults?.styles ?? DEFAULT_VALUES.styles,
+		subsets: options.defaults?.subsets ?? DEFAULT_VALUES.subsets,
 		fallbacks: Object.fromEntries(
 			Object.entries(DEFAULT_VALUES.fallbacks).map(([key, value]) => [
 				key,
 				Array.isArray(options.defaults?.fallbacks)
 					? options.defaults.fallbacks
-					: options.defaults?.fallbacks?.[key as GenericCSSFamily] || value,
+					: options.defaults?.fallbacks?.[key as GenericCSSFamily] ?? value,
 			]),
 		) as Record<GenericCSSFamily, string[]>,
 	};
 
 	if (
-		!options.defaults?.fallbacks ||
+		!options.defaults?.fallbacks ??
 		!Array.isArray(options.defaults.fallbacks)
 	) {
-		options.defaults ||= {};
-		options.defaults.fallbacks ||= {};
+		options.defaults ??= {};
+		options.defaults.fallbacks ??= {};
 		const fallbacks = options.defaults.fallbacks;
 		for (const _key in DEFAULT_VALUES.fallbacks) {
 			const key = _key as keyof typeof DEFAULT_VALUES.fallbacks;
-			fallbacks[key] ||= DEFAULT_VALUES.fallbacks[key];
+			fallbacks[key] ??= DEFAULT_VALUES.fallbacks[key];
 		}
 	}
 
